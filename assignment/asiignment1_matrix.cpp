@@ -90,7 +90,7 @@ Matrix Matrix::Add(Matrix b) {
 	return d;
 }
 Matrix Matrix::Sub(Matrix b) {
-	if (cols != b.cols) cout << "Incompatible matrices" << endl;
+	if (cols != b.cols) cout << "Incompatible matrices" << endl;				//발생
 	if (rows != b.rows) cout << "Incompatible matrices" << endl;
 
 	Matrix d(rows, cols);
@@ -106,18 +106,19 @@ Matrix Matrix::Sub(Matrix b) {
 	}
 	return d;
 }
-Matrix Matrix::Multiply2(Matrix b) {
-	if (cols != b.rows) cout << "Incompatible matrices" << endl;
+Matrix Matrix::Multiply2(Matrix b) {								//지금 들어간 b는 transpose된 t라는걸 생각하자
+	if (cols != b.rows) cout << "Incompatible matrices" << endl;			
 	Matrix bXpose = b.Transpose();
-	Matrix d(rows, b.cols);
+	Matrix d(rows, bXpose.cols);				
 	// Must be implemented by using bXpose 
 	for (int i = 0; i < rows; i++)
 
 	{
-		for (int j = 0; j < bXpose.rows; j++)
+		for (int j = 0; j < bXpose.cols; j++)
 		{
+			//To be implemented 
 			for (int k = 0;k < cols;k++)
-				d.Term[i * bXpose.rows + j] += Term[i * cols + k] * bXpose.Term[j * cols + k];
+				d.Term[i * bXpose.cols + j] += Term[i * cols + k] * bXpose.Term[k * bXpose.cols + j];
 		}
 	}
 	return d;
@@ -171,7 +172,6 @@ int main()
 	c = a.Multiply(b); //not using transpose()
 	cout << "Multiply of Matrix a,b" << endl;
 	cout << c;				//ostream 써야할듯
-	cout << d;
 	d = c.Sub(d);
 	cout << d;
 	cout << "using transpose()" << endl;
