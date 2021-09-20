@@ -13,10 +13,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\실습">
+      <UniqueIdentifier>{4472c6af-8be8-4c4b-bd1e-b7770c7ed24d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asiignment1_matrix.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="1-1_난수생성.cpp">
+      <Filter>소스 파일\실습</Filter>
+    </ClCompile>
+    <ClCompile Include="assignment2_polinomial.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="1-2_행렬연산.cpp">
+      <Filter>소스 파일\실습</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
