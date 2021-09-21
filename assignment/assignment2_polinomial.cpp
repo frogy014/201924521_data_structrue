@@ -1,5 +1,6 @@
 //Polynomial 구현 실습-다항식 입력, 출력, 덧셈ㅁ
 //난수 생성하여 실습은 무리기에 이는 제외한다
+//완성시키고 올린 git 주소: https://github.com/frogy014/201924521_data_structrue/blob/main/assignment/assignment2_polinomial.cpp
 #include <vector>
 #include <algorithm>
 #include <iostream>
