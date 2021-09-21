@@ -54,13 +54,13 @@ istream& operator>>(istream& in, Polynomial& b) {
 	return in;
 }
 Polynomial Polynomial::operator+(Polynomial& b) {
-	Add(b);
+	return Add(b);
 }
 Polynomial Polynomial::operator-(Polynomial& b) {
-	Sub(b);
+	return Sub(b);
 }
 Polynomial Polynomial::operator*(Polynomial& b) {
-	Mul(b);
+	return Mul(b);
 }
 
 
@@ -133,9 +133,9 @@ Polynomial Polynomial::Add(Polynomial b)
 			c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
 			aPos++;
 		}
-	for (; aPos < finish; aPos++)
+	for (; aPos <= finish; aPos++)
 		c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
-	for (; bPos < b.finish; bPos++)
+	for (; bPos <= b.finish; bPos++)
 		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
 	c.finish = free - 1;
 	return c;
@@ -154,7 +154,7 @@ Polynomial Polynomial::Sub(Polynomial b)
 		}
 		else if ((termArray[aPos].exp < b.termArray[bPos].exp))
 		{
-			c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
+			c.NewTerm(b.termArray[bPos].coef*(-1), b.termArray[bPos].exp);
 			bPos++;
 		}
 		else
@@ -162,43 +162,14 @@ Polynomial Polynomial::Sub(Polynomial b)
 			c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
 			aPos++;
 		}
-	for (; aPos < finish; aPos++)
+	for (; aPos <= finish; aPos++)
 		c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
-	for (; bPos < b.finish; bPos++)
-		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
+	for (; bPos <= b.finish; bPos++)
+		c.NewTerm(b.termArray[bPos].coef*(-1), b.termArray[bPos].exp);
 	c.finish = free - 1;
 	return c;
 }
 
-Polynomial Polynomial::Sub(Polynomial b)
-{
-	Polynomial c;
-	int aPos = start, bPos = b.start;
-	c.start = free;
-	while ((aPos <= finish) && (bPos <= b.finish))
-		if ((termArray[aPos].exp == b.termArray[bPos].exp))
-		{
-			float t = termArray[aPos].coef - b.termArray[bPos].coef;
-			if (t) c.NewTerm(t, termArray[aPos].exp);
-			aPos++; bPos++;
-		}
-		else if ((termArray[aPos].exp < b.termArray[bPos].exp))
-		{
-			c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
-			bPos++;
-		}
-		else
-		{
-			c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
-			aPos++;
-		}
-	for (; aPos < finish; aPos++)
-		c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
-	for (; bPos < b.finish; bPos++)
-		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
-	c.finish = free - 1;
-	return c;
-}
 
 
 Polynomial Polynomial::Mul(Polynomial b)
@@ -210,12 +181,13 @@ Polynomial Polynomial::Mul(Polynomial b)
 	c.start = free;
 	c.finish = free;		//시작과 끝을 각각 0으로 잡아두자
 	int cPos = c.start;
-	while ((aPos <= finish) && (bPos <= b.finish))
+	while ((aPos <= finish) && (bPos <= b.finish)) {
 		exp = termArray[aPos].exp + b.termArray[bPos].exp;
 		coef = termArray[aPos].coef * b.termArray[bPos].coef;
-		for (;cPos < c.finish;cPos++) {				//새로 생긴 항의 위치를 확인
-			if (c.finish == 0) {					//아직 아무것도 안넣었을때
+		for (;cPos <= c.finish;cPos++) {				//새로 생긴 항의 위치를 확인
+			if (c.finish == c.start) {					//아직 아무것도 안넣었을때
 				c.NewTerm(coef, exp);
+				c.finish++;
 			}
 			else {									//2회부터
 				if (exp <= c.termArray[cPos].exp) {
@@ -223,7 +195,12 @@ Polynomial Polynomial::Mul(Polynomial b)
 						c.termArray[cPos].coef += coef;
 					else if (exp < c.termArray[cPos].exp) {
 						{
-							if (exp > c.termArray[cPos + 1].exp && cPos < c.finish - 1) {		//새로 추가된 항이 중간에 있을때
+							if (cPos == c.finish - 1) {				//제일 작은 항일때
+								c.NewTerm(coef, exp);
+								c.finish++;
+								break;
+							}
+							else if (exp > c.termArray[cPos + 1].exp) {		//새로 추가된 항이 중간에 있을때
 								for (;cPos < c.finish;cPos++) {
 									int exp_term = exp;
 									float coef_term = coef;
@@ -234,19 +211,22 @@ Polynomial Polynomial::Mul(Polynomial b)
 								}
 								c.NewTerm(coef, exp);
 								c.finish++;
-							}
-							else if (cPos == c.finish - 1) {				//제일 작은 항일때
-								c.NewTerm(coef, exp);
-								c.finish++;
+								break;
 							}
 						}
 
 
 					}
-					break;
 				}
 			}
 		}
+		cPos = c.start;
+		bPos++;
+		if (bPos > b.finish) {
+			bPos = b.start;
+			aPos++;
+		}
+	}
 	c.finish = free - 1;
 	return c;
 }
@@ -302,6 +282,7 @@ int main(void) {
 			cout << "Polynomial2:";
 			//P2.Display();
 			cout << P2;
+			cout << "Polynomial3:";
 			cout << P3;
 			//P3 = P1.Add(P2);
 			P4 = P1 + P2 + P3;
@@ -331,7 +312,8 @@ int main(void) {
 			//P2.Display();
 			cout << P2;
 				//P3.Multiply(P1, P2);
-				P3 = P1 * P2;
+			P4 = P1 * P2;
+			cout << P4;
 			cout << "---------------------------------------- \n";
 			break;
 		case 4: //P2.Eval(5); 학생 구현 실습 대상

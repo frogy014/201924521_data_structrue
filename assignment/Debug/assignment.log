@@ -1,3 +1,1 @@
-﻿  1-1_난수생성.cpp
-C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\1-1_난수생성.cpp(23,9): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  assignment.vcxproj -> C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\Debug\assignment.exe
+﻿  assignment.vcxproj -> C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\Debug\assignment.exe
