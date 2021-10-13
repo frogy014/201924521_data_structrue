@@ -1,1 +1,4 @@
-﻿  assignment.vcxproj -> C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\Debug\assignment.exe
+﻿  assignment4_linked_list_polynomial.cpp
+C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\assignment4_linked_list_polynomial.cpp(319,10): warning C4102: 'defualt': 참조되지 않은 레이블입니다.
+C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\assignment4_linked_list_polynomial.cpp(280,13): warning C4101: 'tempTerm' :참조되지 않은 지역 변수입니다.
+  assignment.vcxproj -> C:\Users\ASUS\source\repos\201924521_data_structrue\assignment\Debug\assignment.exe
